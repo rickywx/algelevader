@@ -16,6 +16,8 @@ Step 1 will download dependencies, build the project, and then start the server.
 
 Step 2 executes 2 clients, 1 that is a web page that emulates an elevator call button, and a second that executes a command line client that allows you to select floors to move the elevator. 
 
+You can watch the output for the elevator movement in the elevator terminal as you enter commands through either the web page or the client terminal.
+
 A RESTful service may not be the best choice for an elevator server, but I wanted some more practice with RESTful services - which is why I chose to implement it this way.
 
-You can watch the output for the elevator movement in the elevator terminal as you enter commands through either the web page or the client terminal.
+TODO: I still need to check inputs; putting in a high number causes an arrayidxOOB error
