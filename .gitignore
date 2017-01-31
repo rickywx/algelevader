@@ -1,0 +1,13 @@
+*.class
+
+.gradle/
+.settings/
+bin/
+build/
+
+.project
+.classpath
+.DS_Store
+
+!gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties

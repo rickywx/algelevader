@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+mainClassName = 'elevader.ClientMain'
+
+dependencies {
+	compile 'org.glassfish.jersey.core:jersey-client:2.25'
+}
+
+gradle.taskGraph.whenReady {taskGraph ->
+	if (taskGraph.hasTask(run)) {
+		run.standardInput = System.in
+	}
+}
+
+task openClientPage << {
+	java.awt.Desktop.desktop.browse "file:///$projectDir/src/main/resources/callbuttons.html".toURI()
+}
+
+task runClient(dependsOn: run)

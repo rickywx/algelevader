@@ -1,0 +1,37 @@
+//command to build client & server & run server: gradle clean build run
+//command to run client (launch in a different console window/tab): gradle :elevatorClient:openClientPage :elevatorClient:run
+//TODO don't forget gradlew, readme, github
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+apply plugin: 'groovy'
+	
+sourceCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+run { 
+	standardInput = System.in 
+}
+
+dependencies {
+	compile 'org.glassfish.jersey.core:jersey-server:2.25'
+	compile 'org.glassfish.grizzly:grizzly-http-server:2.3.28'
+	compile 'org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.25'
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	testCompile 'org.glassfish.jersey.core:jersey-client:2.25'
+	testCompile 'org.codehaus.groovy:groovy-all:2.4.8'
+	testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+mainClassName = 'webserver.ServerManager'
+
+if(project.hasProperty('standalone') && standalone) {
+	mainClassName = 'elevader.application.Application'
+}
+
+//the 'run' task also runs the client run task
+task runServer(dependsOn: run) 
