@@ -39,7 +39,7 @@ public class Application {
 								.map(i -> Integer.parseInt(i))
 								.toArray(Integer[]::new);
 						elevator.activate(selectedFloors);
-					} catch(NumberFormatException | ArrayStoreException ex) {
+					} catch(NumberFormatException | ArrayStoreException | ArrayIndexOutOfBoundsException ex) {
 						if(nextLine == null || nextLine.trim().isEmpty()) {
 							elevator.activate();
 						} else {

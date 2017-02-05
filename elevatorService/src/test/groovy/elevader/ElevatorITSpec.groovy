@@ -31,4 +31,12 @@ class ElevatorITSpec extends Specification {
 		floors[2]
 		floors[7]
 	}	
+	
+	def "should throw exception for invalid input"() {
+		when:
+		elevator.activate(33)
+		
+		then:
+		thrown ArrayIndexOutOfBoundsException
+	}
 }

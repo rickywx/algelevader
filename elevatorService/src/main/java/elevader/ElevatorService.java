@@ -22,6 +22,7 @@ import elevader.api.Elevatable;
 @Path("/elevader")
 public class ElevatorService {
 	private final Elevatable elevator = new Elevator();
+	public static final String INVALID_INPUT_MSG = "%s contains invalid input. Should contain only a list of floor #s up to the top floor, %d";
 	
 	@Context
 	private UriInfo context;
@@ -30,14 +31,20 @@ public class ElevatorService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response gotoFloors(@FormParam("floors") String floors) {
-		Integer[] selectedFloors = Arrays.stream(floors.split("[, ]")).map(i -> Integer.parseInt(i)).toArray(Integer[]::new);
-		Boolean[] allFloors = elevator.selectFloors(selectedFloors).getFloors();
-		int[] allSelectedFloors = IntStream.range(0, allFloors.length).filter(i -> allFloors[i]).map(i -> i+1).toArray();
-		System.out.println("The force awakens...EleVADER has been activated.");
-		elevator.activate(selectedFloors);
-		System.out.println("\nEleVADER has reached all selected floors. This journey to the dark side is complete.");
-		System.out.println("");
-		return Response.ok(Arrays.toString(allSelectedFloors)).build();
+		try {
+			Integer[] selectedFloors = Arrays.stream(floors.split("[, ]")).map(i -> Integer.parseInt(i)).toArray(Integer[]::new);
+			Boolean[] allFloors = elevator.selectFloors(selectedFloors).getFloors();
+			int[] allSelectedFloors = IntStream.range(0, allFloors.length).filter(i -> allFloors[i]).map(i -> i+1).toArray();
+			System.out.println("The force awakens...EleVADER has been activated.");
+			elevator.activate(selectedFloors);
+			System.out.println("\nEleVADER has reached all selected floors. This journey to the dark side is complete.");
+			System.out.println("");
+			return Response.ok(Arrays.toString(allSelectedFloors)).build();
+		} catch(ArrayIndexOutOfBoundsException ex) {
+			Integer totalFloors = elevator.getFloors().length;
+			return Response.serverError().entity( String.format( 
+					INVALID_INPUT_MSG, floors, totalFloors)).build();
+		}
 	}
 	
 	/* spent hours trying to get the post method above working from the browser, but couldn't get around the No 'Access-Control-Allow-Origin' header
