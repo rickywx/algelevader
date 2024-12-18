@@ -1,6 +1,5 @@
-EleVADER application
-
-EleVADER consists of a server and a client application. To run EleVADER, execute the following commands.
+# EleVADER application
+Client/server REST Elevator simulation. Code project for ALG.
 
 1)
 cd to elevaderService directory, and then execute:
